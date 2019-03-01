@@ -1,8 +1,16 @@
-Import-Module psreadline
+if ((Get-InstalledModule -Name "posh-git" -ErrorAction SilentlyContinue) -eq $null) {
+    Install-Module posh-git    
+}
+Import-Module posh-git
+
+if ((Get-InstalledModule -Name "posh-docker" -ErrorAction SilentlyContinue) -eq $null) {
+    Install-Module posh-docker    
+}
 Import-Module posh-docker
 
 
-Import-Module posh-git
+Import-Module psreadline
+
 Start-SshAgent -Quiet
 
 
