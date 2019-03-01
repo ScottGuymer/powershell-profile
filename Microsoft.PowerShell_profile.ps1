@@ -1,18 +1,33 @@
-if ((Get-InstalledModule -Name "posh-git" -ErrorAction SilentlyContinue) -eq $null) {
-    Install-Module posh-git    
+# Import the modules
+try {
+  Import-Module posh-git
 }
-Import-Module posh-git
-
-if ((Get-InstalledModule -Name "posh-docker" -ErrorAction SilentlyContinue) -eq $null) {
-    Install-Module posh-docker    
+catch {
+  Install-Module posh-git    
+  Import-Module posh-git
 }
-Import-Module posh-docker
 
+try {
+  Import-Module posh-docker
+}
+catch {
+  Install-Module posh-docker 
+  Import-Module posh-docker
+}
 
 Import-Module psreadline
-
 Start-SshAgent -Quiet
 
+# Add things to the path 
+$env:path = $env:path + ";C:\Program Files (x86)\MSBuild\14.0\Bin;"
+
+# set some aliases
+Set-Alias -name d -Value docker
+Set-Alias -Name dc -Value docker-compose
+Set-Alias -name tf -Value terraform
+
+# set the start location
+Set-Location c:\code\
 
 $moreArt = @'
                                 ,_-=(!7(7/zs_.
@@ -52,8 +67,3 @@ YYKWZGNM4/Pb  '-VscP4]b@W%     'Mf`   -L\///KM(%W!
 '@
 Write-Host $moreArt -ForegroundColor Cyan
 Write-Host "Scotts profile loaded!!!" -ForegroundColor DarkMagenta
-Set-Location c:\code\
-
-Set-Alias -name d -Value docker
-Set-Alias -Name dc -Value docker-compose
-Set-Alias -name tf -Value terraform
