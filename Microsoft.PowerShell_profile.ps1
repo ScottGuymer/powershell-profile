@@ -1,3 +1,5 @@
+$stopwatch =  [system.diagnostics.stopwatch]::StartNew()
+
 # Import the modules
 try {
   Import-Module posh-git
@@ -21,12 +23,25 @@ Start-SshAgent -Quiet
 # Add things to the path 
 $env:path = $env:path + ";C:\Program Files (x86)\MSBuild\14.0\Bin;"
 
+function Set-NVMVersion { 
+  $exists = Test-Path .nvmrc
+
+  if($exists) {
+    nvm install $(Get-Content .nvmrc); 
+    nvm use $(Get-Content .nvmrc);
+  }
+  else {
+    Write-Host ".nvmrc file does not exist in this directory."
+  }
+ }
+
 # set some aliases
 Set-Alias -name d -Value docker
 Set-Alias -Name dc -Value docker-compose
 Set-Alias -name tf -Value terraform
 Set-Alias -name g -Value git
 Set-Alias -name gs -Value "git status"
+Set-Alias -Name nvmuse -Value "Set-NVMVersion"
 
 # set the start location
 Set-Location c:\code\
@@ -85,3 +100,7 @@ $scottsProfile = @'
 '@
 Write-Host $moreArt -ForegroundColor DarkMagenta
 Write-Host $scottsProfile -ForegroundColor Cyan
+
+$stopwatch.Stop()
+
+Write-Host Loading personal profile took $stopwatch.Elapsed.TotalMilliseconds ms
