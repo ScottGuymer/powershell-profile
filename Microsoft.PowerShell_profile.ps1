@@ -34,6 +34,13 @@ function Set-NVMVersion {
     Write-Host ".nvmrc file does not exist in this directory."
   }
  }
+ 
+function Clear-ZScaler {
+  $regKey="HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
+  Set-ItemProperty -path $regKey AutoConfigURL -Value ""
+  #http://pac.zscalertwo.net/philips.com/global-pac.pac
+  Write-Host "ZScaler Proxy Script Cleared" -ForegroundColor Green
+}
 
 # set some aliases
 Set-Alias -name d -Value docker
