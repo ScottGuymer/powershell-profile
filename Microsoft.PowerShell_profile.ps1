@@ -1,3 +1,6 @@
+
+. "$PSScriptRoot\functions.ps1"
+
 $stopwatch =  [system.diagnostics.stopwatch]::StartNew()
 
 # Import the modules
@@ -22,25 +25,6 @@ Start-SshAgent -Quiet
 
 # Add things to the path 
 $env:path = $env:path + ";C:\Program Files (x86)\MSBuild\14.0\Bin;"
-
-function Set-NVMVersion { 
-  $exists = Test-Path .nvmrc
-
-  if($exists) {
-    nvm install $(Get-Content .nvmrc); 
-    nvm use $(Get-Content .nvmrc);
-  }
-  else {
-    Write-Host ".nvmrc file does not exist in this directory."
-  }
- }
- 
-function Clear-ZScaler {
-  $regKey="HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
-  Set-ItemProperty -path $regKey AutoConfigURL -Value ""
-  #http://pac.zscalertwo.net/philips.com/global-pac.pac
-  Write-Host "ZScaler Proxy Script Cleared" -ForegroundColor Green
-}
 
 # set some aliases
 Set-Alias -name d -Value docker
