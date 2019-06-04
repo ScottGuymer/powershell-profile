@@ -33,6 +33,7 @@ Set-Alias -name tf -Value terraform
 Set-Alias -name g -Value git
 Set-Alias -name gs -Value "git status"
 Set-Alias -Name nvmuse -Value "Set-NVMVersion"
+Set-Alias -Name which -Value "Get-Command"
 
 # set the start location
 Set-Location c:\code\
