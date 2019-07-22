@@ -21,6 +21,12 @@ catch {
 }
 
 Import-Module psreadline
+
+if((Get-Service ssh-agent).StartType -eq "Disabled") {
+  Write-Host "Setting ssh-agent service to manual start"
+  Get-Service -Name ssh-agent | Set-Service -StartupType Manual
+}
+
 Start-SshAgent -Quiet
 
 # Add things to the path 
