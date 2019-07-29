@@ -24,3 +24,10 @@ function touch ($filename) {
 function tail([String]$filename, [int]$lines = 10) {
   Get-Content $filename -Wait -Tail $lines
 }
+
+function Optimize-Docker-Images {
+  Write-Host "Removing all stopped docker containers" -ForegroundColor Green
+  docker rm $(docker ps -a -q)
+  Write-Host "Removing all dangling images" -ForegroundColor Green
+  docker rmi $(docker images --filter "dangling=true" -a -q)
+}
