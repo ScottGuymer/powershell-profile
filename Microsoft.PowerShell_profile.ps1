@@ -20,6 +20,14 @@ catch {
   Import-Module posh-docker
 }
 
+try {
+  Import-Module oh-my-posh
+}
+catch {
+  Install-Module oh-my-posh
+  Import-Module oh-my-posh
+}
+
 Import-Module psreadline
 
 if((Get-Service ssh-agent).StartType -eq "Disabled") {
@@ -27,7 +35,9 @@ if((Get-Service ssh-agent).StartType -eq "Disabled") {
   Get-Service -Name ssh-agent | Set-Service -StartupType Manual
 }
 
+$stopwatch.Stop()
 Start-SshAgent -Quiet
+$stopwatch.Start()
 
 # Add things to the path 
 $env:path = $env:path + ";C:\Program Files (x86)\MSBuild\14.0\Bin;"
@@ -100,6 +110,9 @@ $scottsProfile = @'
 Write-Host $moreArt -ForegroundColor DarkMagenta
 Write-Host $scottsProfile -ForegroundColor Cyan
 
+Set-Theme paradox
+
 $stopwatch.Stop()
 
 Write-Host Loading personal profile took $stopwatch.Elapsed.TotalMilliseconds ms
+
