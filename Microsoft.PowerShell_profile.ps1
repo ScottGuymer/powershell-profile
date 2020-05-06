@@ -1,7 +1,7 @@
 
 . "$PSScriptRoot\functions.ps1"
 
-$stopwatch =  [system.diagnostics.stopwatch]::StartNew()
+$stopwatch = [system.diagnostics.stopwatch]::StartNew()
 
 # Import the modules
 try {
@@ -30,7 +30,7 @@ catch {
 
 Import-Module psreadline
 
-if((Get-Service ssh-agent).StartType -eq "Disabled") {
+if ((Get-Service ssh-agent).StartType -eq "Disabled") {
   Write-Host "Setting ssh-agent service to manual start"
   Get-Service -Name ssh-agent | Set-Service -StartupType Manual
 }
@@ -45,9 +45,9 @@ $env:path = $env:path + ";C:\Program Files (x86)\MSBuild\14.0\Bin;"
 # set some aliases
 Set-Alias -name d -Value docker
 Set-Alias -Name dc -Value docker-compose
+Set-Alias -Name dm -Value docmer-machine
 Set-Alias -name tf -Value terraform
 Set-Alias -name g -Value git
-Set-Alias -name gs -Value "git status"
 Set-Alias -Name nvmuse -Value "Set-NVMVersion"
 Set-Alias -Name which -Value "Get-Command"
 Set-Alias -Name k -Value "kubectl"
@@ -117,3 +117,9 @@ $stopwatch.Stop()
 
 Write-Host Loading personal profile took $stopwatch.Elapsed.TotalMilliseconds ms
 
+
+# Chocolatey profile
+$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+if (Test-Path($ChocolateyProfile)) {
+  Import-Module "$ChocolateyProfile"
+}
