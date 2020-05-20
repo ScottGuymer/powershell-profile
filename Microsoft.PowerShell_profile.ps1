@@ -45,7 +45,7 @@ $env:path = $env:path + ";C:\Program Files (x86)\MSBuild\14.0\Bin;"
 # set some aliases
 Set-Alias -name d -Value docker
 Set-Alias -Name dc -Value docker-compose
-Set-Alias -Name dm -Value docmer-machine
+Set-Alias -Name dm -Value docker-machine
 Set-Alias -name tf -Value terraform
 Set-Alias -name g -Value git
 Set-Alias -Name nvmuse -Value "Set-NVMVersion"
