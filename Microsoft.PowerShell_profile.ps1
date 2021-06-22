@@ -5,6 +5,15 @@ $stopwatch = [system.diagnostics.stopwatch]::StartNew()
 
 # Import the modules
 try {
+  Import-Module oh-my-posh 
+}
+catch {
+  Install-Module oh-my-posh    
+  Import-Module oh-my-posh
+}
+Set-PoshPrompt -Theme negligible
+
+try {
   Import-Module posh-git
 }
 catch {
@@ -111,12 +120,9 @@ $scottsProfile = @'
 Write-Host $moreArt -ForegroundColor DarkMagenta
 Write-Host $scottsProfile -ForegroundColor Cyan
 
-Set-PoshPrompt -Theme negligible
-
 $stopwatch.Stop()
 
 Write-Host Loading personal profile took $stopwatch.Elapsed.TotalMilliseconds ms
-
 
 # Chocolatey profile
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
