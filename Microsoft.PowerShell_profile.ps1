@@ -111,7 +111,7 @@ $scottsProfile = @'
 Write-Host $moreArt -ForegroundColor DarkMagenta
 Write-Host $scottsProfile -ForegroundColor Cyan
 
-Set-Theme paradox
+Set-PoshPrompt -Theme negligible
 
 $stopwatch.Stop()
 
