@@ -44,12 +44,17 @@ if ((Get-Service ssh-agent).StartType -eq "Disabled") {
   Get-Service -Name ssh-agent | Set-Service -StartupType Automatic
 }
 
-if (!(Get-Service ssh-agent).Status -eq "Running") {
+if (-not ((Get-Service ssh-agent).Status -eq "Running")) {
   Write-Host "ssh-agent service not running - starting"
   $stopwatch.Stop()
   Start-SshAgent -Quiet
   $stopwatch.Start()
 }
+
+if (-not (Test-Path 'env:GIT_SSH')) { 
+  Write-Host "GIT_SSH is not set"
+  $env:GIT_SSH = "C:\Windows\System32\OpenSSH\ssh.exe"
+} 
 
 # set some aliases
 Set-Alias -name d -Value docker
