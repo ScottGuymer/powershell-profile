@@ -41,15 +41,15 @@ Import-Module psreadline
 
 if ((Get-Service ssh-agent).StartType -eq "Disabled") {
   Write-Host "Setting ssh-agent service to manual start"
-  Get-Service -Name ssh-agent | Set-Service -StartupType Manual
+  Get-Service -Name ssh-agent | Set-Service -StartupType Automatic
 }
 
-$stopwatch.Stop()
-Start-SshAgent -Quiet
-$stopwatch.Start()
-
-# Add things to the path 
-$env:path = $env:path + ";C:\Program Files (x86)\MSBuild\14.0\Bin;"
+if (!(Get-Service ssh-agent).Status -eq "Running") {
+  Write-Host "ssh-agent service not running - starting"
+  $stopwatch.Stop()
+  Start-SshAgent -Quiet
+  $stopwatch.Start()
+}
 
 # set some aliases
 Set-Alias -name d -Value docker
