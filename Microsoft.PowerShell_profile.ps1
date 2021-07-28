@@ -61,6 +61,7 @@ Set-Alias -name d -Value docker
 Set-Alias -Name dc -Value docker-compose
 Set-Alias -Name dm -Value docker-machine
 Set-Alias -name tf -Value terraform
+Set-Alias -name tg -Value terragrunt
 Set-Alias -name g -Value git
 Set-Alias -Name nvmuse -Value "Set-NVMVersion"
 Set-Alias -Name which -Value "Get-Command"
