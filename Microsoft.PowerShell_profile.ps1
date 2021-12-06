@@ -5,15 +5,6 @@ $stopwatch = [system.diagnostics.stopwatch]::StartNew()
 
 # Import the modules
 try {
-  Import-Module oh-my-posh 
-}
-catch {
-  Install-Module oh-my-posh    
-  Import-Module oh-my-posh
-}
-Set-PoshPrompt -Theme negligible
-
-try {
   Import-Module posh-git
 }
 catch {
@@ -29,13 +20,6 @@ catch {
   Import-Module posh-docker
 }
 
-try {
-  Import-Module oh-my-posh
-}
-catch {
-  Install-Module oh-my-posh
-  Import-Module oh-my-posh
-}
 
 Import-Module psreadline
 
@@ -67,6 +51,9 @@ Set-Alias -Name nvmuse -Value "Set-NVMVersion"
 Set-Alias -Name which -Value "Get-Command"
 Set-Alias -Name k -Value "kubectl"
 Set-Alias -Name dockerclean -Value "Optimize-Docker-Images"
+
+Set-Alias -Name sap -Value "set-awsprofile"
+Set-Alias -Name cap -Value "clear-awsprofile"
 
 # set the start location
 Set-Location c:\code\
@@ -126,6 +113,8 @@ $scottsProfile = @'
 Write-Host $moreArt -ForegroundColor DarkMagenta
 Write-Host $scottsProfile -ForegroundColor Cyan
 
+oh-my-posh --init --shell pwsh --config $PSScriptRoot/.oh-my-posh.omp.json | Invoke-Expression
+
 $stopwatch.Stop()
 
 Write-Host Loading personal profile took $stopwatch.Elapsed.TotalMilliseconds ms
@@ -135,3 +124,4 @@ $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 if (Test-Path($ChocolateyProfile)) {
   Import-Module "$ChocolateyProfile"
 }
+
