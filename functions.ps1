@@ -45,21 +45,32 @@ function base64decode() {
   return $DecodedText
 }
 
-function aws_role([String]$role) {
+function Set-AWSRole([String]$awsprofile, [string]$role) {
+
+  Write-Output "Logging into AWS using credential profile $awsprofile and assuming role $role"  
 
   $env:_AWS_ACCESS_KEY_ID=$env:AWS_ACCESS_KEY_ID
   $env:_AWS_SECRET_ACCESS_KEY=$env:AWS_SECRET_ACCESS_KEY
   $env:_AWS_SESSION_TOKEN=$env:AWS_SESSION_TOKEN
 
-  $aws_credentials=$(aws sts assume-role --role-arn $role --role-session-name $($(whoami) -Replace '[^a-zA-Z0-9]',''))
+  try {
+    $aws_credentials=$(aws sts assume-role --profile $awsprofile --role-arn $role --role-session-name $($(whoami) -Replace '[^a-zA-Z0-9]',''))
 
-  $json = $aws_credentials | ConvertFrom-Json
-  $env:AWS_ACCESS_KEY_ID=$json.Credentials.AccessKeyId
-  $env:AWS_SECRET_ACCESS_KEY=$json.Credentials.SecretAccessKey
-  $env:AWS_SESSION_TOKEN=$json.Credentials.SessionToken
+    $json = $aws_credentials | ConvertFrom-Json
+    $env:AWS_ACCESS_KEY_ID=$json.Credentials.AccessKeyId
+    $env:AWS_SECRET_ACCESS_KEY=$json.Credentials.SecretAccessKey
+    $env:AWS_SESSION_TOKEN=$json.Credentials.SessionToken    
+  }
+  catch {
+    Write-Host -ForegroundColor Red "Error assuming role $role."
+    Write-host -ForegroundColor Red  "Error: $($_.Exception.Message)"
+    exit 1  
+  }
+
+  Write-Host -ForegroundColor Green "Role Assumed"
 }
 
-function aws_clear_role([String]$role) {
+function Clear-AWSRole([String]$role) {
 
   $env:AWS_ACCESS_KEY_ID=$env:_AWS_ACCESS_KEY_ID
   $env:AWS_SECRET_ACCESS_KEY=$env:_AWS_SECRET_ACCESS_KEY
@@ -68,4 +79,17 @@ function aws_clear_role([String]$role) {
   $env:_AWS_ACCESS_KEY_ID=""
   $env:_AWS_SECRET_ACCESS_KEY=""
   $env:_AWS_SESSION_TOKEN=""
+
+  Write-Host -ForegroundColor Green "Cleared assumed role."
+}
+function set-AWSProfile([String]$role) {
+  $env:AWS_PROFILE=$([String]$role) 
+
+  Write-Host -ForegroundColor Green "Changed to $role profile."
+}
+
+function Clear-AWSProfile()  {
+  $env:AWS_PROFILE=""
+
+  Write-Host -ForegroundColor Green "Cleared profile."
 }
