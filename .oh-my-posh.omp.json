@@ -23,15 +23,15 @@
           "style": "powerline",
           "powerline_symbol": "",
           "background": "#2e9599",
-          "foreground": "#111111",
+          "foreground": "#ffffff",
           "properties": {
-            "display_stash_count": true,
-            "display_upstream_icon": true,
+            "display_stash_count": false,
+            "display_upstream_icon": false,
             "status_colors_enabled": true,            
             "ahead_and_behind_color": "#f26d50",
             "behind_color": "#f17c37",
-            "ahead_color": "#89d1dc",
-            "stash_count_icon": "\uF692 "
+            "ahead_color": "#89d1dc"            
+
           }
         },
         {
@@ -79,7 +79,7 @@
           "leading_diamond": "\uE0B6",
           "trailing_diamond": "",
           "background": "#2e9599",
-          "foreground": "#111111"
+          "foreground": "#ffffff"
         }
       ]
     }
