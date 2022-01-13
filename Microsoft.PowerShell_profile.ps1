@@ -1,5 +1,6 @@
 
 . "$PSScriptRoot\functions.ps1"
+. "$PSScriptRoot\aws_auth.ps1"
 
 $stopwatch = [system.diagnostics.stopwatch]::StartNew()
 
